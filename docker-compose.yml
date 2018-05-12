@@ -1,0 +1,11 @@
+version: '3.0'
+services:
+    transaction-provider:
+        container_name: ts-app
+        image: ts-app-image
+        build:
+            context: .
+            dockerfile: DockerFile
+        ports:
+            - 8080:8080
+        command: start
