@@ -23,14 +23,16 @@ public class TransactionResource {
     @Inject
     TransactionService transactionService;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> commit(@Validated @RequestBody Transaction transaction) {
+        HttpStatus responseStatus;
         try {
             transactionService.commit(transaction);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            responseStatus = HttpStatus.CREATED;
         } catch (ExpiredTimestampException ex) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            responseStatus = HttpStatus.NO_CONTENT;
         }
+        return ResponseEntity.status(responseStatus).build();
     }
 
 
