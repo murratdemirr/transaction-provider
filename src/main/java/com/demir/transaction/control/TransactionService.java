@@ -3,7 +3,6 @@ package com.demir.transaction.control;
 import com.demir.transaction.ExpiredTimestampException;
 import com.demir.transaction.entity.Transaction;
 import com.demir.transaction.entity.TransactionStatistics;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -24,7 +23,6 @@ public class TransactionService {
     @Inject
     TimestampValidator timestampValidator;
 
-    @Async
     public void commit(Transaction transaction) throws ExpiredTimestampException {
         timestampValidator.check(transaction.getTimestamp());
         repository.push(transaction);

@@ -16,7 +16,7 @@ public class TransactionCleaner {
     @Inject
     TransactionRepository repository;
 
-    @Scheduled(fixedDelay = 1)
+    @Scheduled(fixedDelay = 1000)
     public void killer(){
         repository.deleteOldOnes();
     }

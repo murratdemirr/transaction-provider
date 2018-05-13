@@ -15,8 +15,6 @@ public class TransactionStatistics implements Serializable {
     private Double min;
     private Long count;
 
-    public TransactionStatistics() {
-    }
 
     public TransactionStatistics(Double sum, Double avg, Double max, Double min, Long count) {
         this.sum = sum.doubleValue();
@@ -32,6 +30,10 @@ public class TransactionStatistics implements Serializable {
             this.min = Double.valueOf(0);
         }
         this.count = count.longValue();
+    }
+
+    public static TransactionStatistics empty() {
+        return new TransactionStatistics(Double.valueOf(0), Double.valueOf(0), Double.valueOf(0), Double.valueOf(0), Long.valueOf(0));
     }
 
     public Double getSum() {

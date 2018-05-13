@@ -43,7 +43,7 @@ public class TransactionRepository {
 
 
     public synchronized void push(final Transaction transaction) {
-        LOG.info("Transaction repository got a new push request, {0}", transaction.toString());
+        LOG.info("Transaction repository received a new push request");
         if (transactionMap.containsKey(transaction.getTimestamp())) {
             transactionMap.get(transaction.getTimestamp()).add(transaction);
         } else {
@@ -57,6 +57,7 @@ public class TransactionRepository {
     }
 
     public TransactionStatistics statistics() {
+        TransactionStatistics statistics = TransactionStatistics.empty();
         final long minimumTime = System.currentTimeMillis() - maximumValidityPeriod;
 
         List<Transaction> transactions = new ArrayList<>();
@@ -66,8 +67,10 @@ public class TransactionRepository {
                 .filter(t -> t.getKey() >= minimumTime)
                 .forEach(t -> transactions.addAll(t.getValue().getData()));
 
-        final DoubleSummaryStatistics summary = transactions.stream().collect(Collectors.summarizingDouble(t -> t.getAmount()));
-        final TransactionStatistics statistics = new TransactionStatistics(summary.getSum(), summary.getAverage(), summary.getMax(), summary.getMin(), summary.getCount());
+        if (!transactions.isEmpty()) {
+            final DoubleSummaryStatistics summary = transactions.stream().collect(Collectors.summarizingDouble(t -> t.getAmount()));
+            statistics = new TransactionStatistics(summary.getSum(), summary.getAverage(), summary.getMax(), summary.getMin(), summary.getCount());
+        }
         return statistics;
     }
 }
