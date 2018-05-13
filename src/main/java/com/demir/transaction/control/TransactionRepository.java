@@ -11,8 +11,8 @@ import javax.annotation.PostConstruct;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * User: muratdemir
@@ -26,7 +26,9 @@ public class TransactionRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionRepository.class);
 
-    private volatile Map<String, List<Transaction>> transactionMap = new ConcurrentHashMap<>();
+    private volatile ConcurrentHashMap<String, List<Transaction>> transactionMap = new ConcurrentHashMap<>();
+    private volatile ConcurrentSkipListMap<String,String> coo = new ConcurrentSkipListMap<>();
+
 
     @PostConstruct
     public void init() {
@@ -42,6 +44,7 @@ public class TransactionRepository {
             if (transactions == null || transactions.isEmpty()) {
                 transactions = new ArrayList<>();
             }
+            coo.headMap("ww").clear();
             transactions.add(transaction);
             transactionMap.replace(id, transactions);
         } else {
