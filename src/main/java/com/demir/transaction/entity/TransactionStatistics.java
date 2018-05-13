@@ -15,48 +15,62 @@ public class TransactionStatistics implements Serializable {
     private Double min;
     private Long count;
 
-    private TransactionStatistics(Double sum, Double avg, Double max, Double min, Long count) {
-        this.sum = sum;
-        this.avg = avg;
-        this.max = max;
-        this.min = min;
-        this.count = count;
+    public TransactionStatistics() {
     }
 
-    public static TransactionStatistics build() {
-        return new TransactionStatistics(Double.valueOf(0), Double.valueOf(0), Double.valueOf(0), Double.valueOf(0), Long.valueOf(0));
-    }
-
-    public TransactionStatistics add(Transaction transaction) {
-        this.sum += transaction.getAmount();
-        this.count += 1;
-        if (transaction.getAmount().doubleValue() > this.max) {
-            this.max = transaction.getAmount().doubleValue();
+    public TransactionStatistics(Double sum, Double avg, Double max, Double min, Long count) {
+        this.sum = sum.doubleValue();
+        this.avg = avg.doubleValue();
+        if (!max.isInfinite()) {
+            this.max = max.doubleValue();
+        } else {
+            this.max = Double.valueOf(0);
         }
-        if (transaction.getAmount().doubleValue() < this.min) {
-            this.min = transaction.getAmount().doubleValue();
+        if (!min.isInfinite()) {
+            this.min = min.doubleValue();
+        } else {
+            this.min = Double.valueOf(0);
         }
-        this.avg = this.sum / this.count;
-        return this;
+        this.count = count.longValue();
     }
 
     public Double getSum() {
         return sum;
     }
 
+    public void setSum(Double sum) {
+        this.sum = sum;
+    }
+
     public Double getAvg() {
         return avg;
+    }
+
+    public void setAvg(Double avg) {
+        this.avg = avg;
     }
 
     public Double getMax() {
         return max;
     }
 
+    public void setMax(Double max) {
+        this.max = max;
+    }
+
     public Double getMin() {
         return min;
     }
 
+    public void setMin(Double min) {
+        this.min = min;
+    }
+
     public Long getCount() {
         return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 }

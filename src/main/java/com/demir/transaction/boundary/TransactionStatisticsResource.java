@@ -23,8 +23,9 @@ public class TransactionStatisticsResource {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody TransactionStatistics fetch() {
-        return transactionService.snapshot();
+    public @ResponseBody
+    TransactionStatistics fetch() {
+        return transactionService.fetchStatistics();
     }
 
 

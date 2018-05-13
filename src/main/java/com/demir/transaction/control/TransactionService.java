@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.time.Instant;
 
 
 /**
@@ -21,8 +20,6 @@ import java.time.Instant;
 public class TransactionService {
 
     @Inject
-    IdGenerator idGenerator;
-    @Inject
     TransactionRepository repository;
     @Inject
     TimestampValidator timestampValidator;
@@ -30,16 +27,12 @@ public class TransactionService {
     @Async
     public void commit(Transaction transaction) throws ExpiredTimestampException {
         timestampValidator.check(transaction.getTimestamp());
-        final String id = idGenerator.id(transaction.getTimestamp());
-        repository.push(id, transaction);
+        repository.push(transaction);
     }
 
 
-    @Async
-    public TransactionStatistics snapshot() {
-        final long timestamp = Instant.now().getEpochSecond();
-        TransactionStatistics statistics = TransactionStatistics.build();
-        return statistics;
+    public TransactionStatistics fetchStatistics() {
+        return repository.statistics();
     }
 
 }

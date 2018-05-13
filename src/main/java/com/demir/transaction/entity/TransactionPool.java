@@ -1,6 +1,7 @@
 package com.demir.transaction.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -24,6 +25,10 @@ public class TransactionPool implements Serializable {
     public synchronized TransactionPool add(Transaction transaction) {
         transactions.add(transaction);
         return this;
+    }
+
+    public List<Transaction> getData() {
+        return transactions;
     }
 
 }
