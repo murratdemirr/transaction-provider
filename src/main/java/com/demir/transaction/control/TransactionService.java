@@ -1,6 +1,6 @@
 package com.demir.transaction.control;
 
-import com.demir.transaction.InvalidTimestampException;
+import com.demir.transaction.ExpiredTimestampException;
 import com.demir.transaction.entity.Transaction;
 import com.demir.transaction.entity.TransactionStatistics;
 import org.springframework.scheduling.annotation.Async;
@@ -24,9 +24,12 @@ public class TransactionService {
     IdGenerator idGenerator;
     @Inject
     TransactionRepository repository;
+    @Inject
+    TimestampValidator timestampValidator;
 
     @Async
-    public void commit(Transaction transaction) throws InvalidTimestampException {
+    public void commit(Transaction transaction) throws ExpiredTimestampException {
+        timestampValidator.check(transaction.getTimestamp());
         final String id = idGenerator.id(transaction.getTimestamp());
         repository.push(id, transaction);
     }

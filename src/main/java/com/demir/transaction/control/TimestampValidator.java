@@ -1,6 +1,6 @@
 package com.demir.transaction.control;
 
-import com.demir.transaction.InvalidTimestampException;
+import com.demir.transaction.ExpiredTimestampException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class TimestampValidator {
 
-    @Value("${millisecond.border}")
-    private Long border;
+    @Value("${millisecond.max}")
+    private Long maximumValidityPeriod;
 
-    public void check(final long timestamp) throws InvalidTimestampException {
-        final long limit = System.currentTimeMillis() - border;
-        if (timestamp < limit) {
-            throw new InvalidTimestampException();
+    public void check(final long timestamp) throws ExpiredTimestampException {
+        final long minimumTime = System.currentTimeMillis() - maximumValidityPeriod;
+        if (timestamp < minimumTime) {
+            throw new ExpiredTimestampException();
         }
     }
 

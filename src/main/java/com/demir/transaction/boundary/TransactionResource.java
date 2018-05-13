@@ -1,6 +1,6 @@
 package com.demir.transaction.boundary;
 
-import com.demir.transaction.InvalidTimestampException;
+import com.demir.transaction.ExpiredTimestampException;
 import com.demir.transaction.control.TransactionService;
 import com.demir.transaction.entity.Transaction;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class TransactionResource {
         try {
             transactionService.commit(transaction);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (InvalidTimestampException ite) {
+        } catch (ExpiredTimestampException ex) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
