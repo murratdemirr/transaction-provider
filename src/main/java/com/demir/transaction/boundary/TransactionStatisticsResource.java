@@ -1,8 +1,11 @@
 package com.demir.transaction.boundary;
 
+import com.demir.transaction.control.TransactionService;
 import com.demir.transaction.entity.TransactionStatistics;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
 
 /**
  * User: muratdemir
@@ -15,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("statistics")
 public class TransactionStatisticsResource {
 
+    @Inject
+    TransactionService transactionService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody TransactionStatistics get() {
-        return new TransactionStatistics();
+        return transactionService.snapshot();
     }
 
 

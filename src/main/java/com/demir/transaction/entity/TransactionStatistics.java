@@ -15,43 +15,55 @@ public class TransactionStatistics implements Serializable {
     private Double min;
     private Long count;
 
-    public Double getSum() {
-        return sum;
+    private TransactionStatistics() {
     }
 
-    public void setSum(Double sum) {
+    public static TransactionStatistics build() {
+        return new TransactionStatistics();
+    }
+
+    public TransactionStatistics sum(Double sum) {
         this.sum = sum;
+        return this;
+    }
+
+    public TransactionStatistics avg(Double avg) {
+        this.avg = avg;
+        return this;
+    }
+
+    public TransactionStatistics max(Double max) {
+        this.max = max;
+        return this;
+    }
+
+    public TransactionStatistics min(Double min) {
+        this.min = min;
+        return this;
+    }
+
+    public TransactionStatistics count(Long count) {
+        this.count = count;
+        return this;
+    }
+
+    public Double getSum() {
+        return sum;
     }
 
     public Double getAvg() {
         return avg;
     }
 
-    public void setAvg(Double avg) {
-        this.avg = avg;
-    }
-
     public Double getMax() {
         return max;
-    }
-
-    public void setMax(Double max) {
-        this.max = max;
     }
 
     public Double getMin() {
         return min;
     }
 
-    public void setMin(Double min) {
-        this.min = min;
-    }
-
     public Long getCount() {
         return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
     }
 }
